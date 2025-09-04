@@ -8,8 +8,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@SukratUbha/klinecharts": "file:../SukratUbha-klinecharts-10.0.0-alpha9.1.tgz"
-  }
+  "description": ""
 }
