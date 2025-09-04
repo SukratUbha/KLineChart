@@ -1,6 +1,6 @@
 {
-  "name": "klinecharts",
-  "version": "10.0.0-alpha9",
+  "name": "@SukratUbha/klinecharts",
+  "version": "10.0.0-alpha9.1",
   "description": "Lightweight k-line chart built with html5 canvas",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -24,10 +24,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/klinecharts/KLineChart.git"
+    "url": "git+https://github.com/SukratUbha/KLineChart.git"
   },
   "bugs": {
-    "url": "https://github.com/klinecharts/KLineChart/issues"
+    "url": "https://github.com/SukratUbha/KLineChart/issues"
   },
   "homepage": "https://klinecharts.com/",
   "keywords": [

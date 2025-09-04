@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Set Crosshair Test</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+      }
+      #chart {
+        width: 100%;
+        height: 600px;
+        border: 1px solid #ccc;
+      }
+      .controls {
+        margin: 20px 0;
+      }
+      button {
+        margin: 5px;
+        padding: 10px 15px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      input {
+        margin: 5px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Set Crosshair Test</h1>
+    <p>
+      This test demonstrates the new setCrosshair method that allows you to
+      programmatically set the crosshair position.
+    </p>
+
+    <div class="controls">
+      <label
+        >X Coordinate: <input type="number" id="xInput" value="200"
+      /></label>
+      <label
+        >Y Coordinate: <input type="number" id="yInput" value="200"
+      /></label>
+      <button onclick="setCrosshairPosition()">Set Crosshair Position</button>
+      <button onclick="clearCrosshair()">Clear Crosshair</button>
+      <button onclick="setRandomPosition()">Random Position</button>
+    </div>
+
+    <div id="chart"></div>
+
+    <script type="module">
+      import { init } from "../../src/index.js";
+
+      const chart = init("chart");
+
+      // Set up the chart with sample data
+      chart.setSymbol({ ticker: "TestSymbol" });
+      chart.setPeriod({ span: 1, type: "day" });
+
+      chart.setDataLoader({
+        getBars: ({ callback }) => {
+          fetch("../../docs/public/datas/kline.json")
+            .then((res) => res.json())
+            .then((dataList) => {
+              callback(dataList);
+              console.log("Chart initialized with data");
+            })
+            .catch((err) => {
+              console.error("Failed to load data:", err);
+              // Fallback to empty data
+              callback([]);
+            });
+        },
+      });
+
+      // Make functions available globally for the buttons
+      window.setCrosshairPosition = function () {
+        const x = parseInt(document.getElementById("xInput").value);
+        const y = parseInt(document.getElementById("yInput").value);
+
+        console.log(`Setting crosshair to x: ${x}, y: ${y}`);
+        chart.setCrosshair({ x, y, paneId: "candle_pane" });
+      };
+
+      window.clearCrosshair = function () {
+        console.log("Clearing crosshair");
+        chart.setCrosshair();
+      };
+
+      window.setRandomPosition = function () {
+        const chartSize = chart.getSize();
+        if (chartSize) {
+          const x = Math.random() * chartSize.width;
+          const y = Math.random() * chartSize.height;
+
+          document.getElementById("xInput").value = Math.round(x);
+          document.getElementById("yInput").value = Math.round(y);
+
+          console.log(
+            `Setting random crosshair to x: ${Math.round(x)}, y: ${Math.round(
+              y
+            )}`
+          );
+          chart.setCrosshair({ x, y, paneId: "candle_pane" });
+        }
+      };
+
+      // Subscribe to crosshair changes to log them
+      chart.subscribeAction("onCrosshairChange", (data) => {
+        console.log("Crosshair changed:", data);
+      });
+    </script>
+  </body>
+</html>
