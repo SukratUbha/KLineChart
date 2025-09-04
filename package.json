@@ -46,7 +46,8 @@
   "license": "Apache-2.0",
   "private": false,
   "scripts": {
-    "prepare": "node scripts/check-env.js && husky install",
+    "prepare": "node scripts/check-env.js",
+    "dev-setup": "node scripts/check-env.js && husky install",
     "prepublishOnly": "node scripts/pre-publish.js",
     "branch-lint": "node scripts/branch-lint.js",
     "commit-lint": "commitlint --edit",
